@@ -1,38 +1,31 @@
-# Define a function to remove stop words from a list of words
-import nltk
+import os
 
+# Define the paths to the input files
+stop_words_path = "stop_words_english.txt"
+input_words_path = "files/input.txt"
 
-def remove_stop_words(words):
-    """Removes stop words from a list of words.
+# Create a set to store the stop words
+stop_words = set()
 
-    Args:
-        words: A list of words.
+# Read stop words from stop_words_english.txt
+with open(stop_words_path, 'r', encoding="utf8") as stop_words_file:
+    stop_words.update(word.strip() for word in stop_words_file)
 
-    Returns:
-        A list of words without stop words.
-    """
+# Read words to remove from input.txt
+with open(input_words_path, 'r', encoding="utf8") as input_words_file:
+    words_to_remove = set(word.strip() for word in input_words_file)
 
-    stopwords = nltk.corpus.stopwords.words('english')
-    return [word for word in words if word not in stopwords]
+# Remove words to be excluded
+filtered_stop_words = stop_words.difference(words_to_remove)
 
-# Define a function to remove stop words from a text file
-def remove_stop_words_from_txt_file(input_file_path, output_file_path):
-    """Removes stop words from a text file and writes the output to another text file.
+# Create the 'output_files' directory if it doesn't exist
+output_directory = "output_files"
+os.makedirs(output_directory, exist_ok=True)
 
-    Args:
-        input_file_path: The path to the input text file.
-        output_file_path: The path to the output text file.
-    """
+# Save the filtered stop words to stop_words_english.stp
+output_path = os.path.join(output_directory, "stop_words_english.stp")
 
-    with open(input_file_path, 'r') as input_file, open(output_file_path, 'w') as output_file:
-        for line in input_file:
-            words = line.split()
-            filtered_words = remove_stop_words(words)
-            output_file.write(' '.join(filtered_words) + '\n')
+with open(output_path, 'w', encoding="utf8") as output_file:
+    output_file.write("\n".join(filtered_stop_words))
 
-# Example usage:
-
-# Remove stop words from a text file
-input_file_path = 'input.txt'
-output_file_path = 'output.stp'
-remove_stop_words_from_txt_file(input_file_path, output_file_path)
+print("Filtered stop words saved to 'stop_words_english.stp' in 'output_files' directory.")
