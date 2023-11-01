@@ -1,6 +1,5 @@
 import os
 
-
 from dependencies.dependecy_installer import install_dependencies
 
 install_dependencies()
@@ -8,19 +7,14 @@ install_dependencies()
 import nltk
 from nltk.corpus import stopwords
 
-
-
-
-
-# Define the paths to the input tools
-stop_words_path = "tools/stop_words_english.txt"
+# Define the paths to the input src
+stop_words_path = "src/stop_words_english.txt"
 input_words_path = "example/example.txt"
 
 # Create a set to store the stop words
 stop_words = set()
 nltk.download('stopwords')
 print(stopwords.words('english'))
-
 
 # Read stop words from stop_words_english.txt
 with open(stop_words_path, 'r', encoding="utf8") as stop_words_file:
@@ -30,30 +24,34 @@ with open(stop_words_path, 'r', encoding="utf8") as stop_words_file:
 with open(input_words_path, 'r', encoding="utf8") as input_words_file:
     words_to_remove = set(word.strip() for word in input_words_file)
 
-# Ask the user if they want to edit the input.txt file
-user_choice = input("Do you want to edit the input.txt file? (yes/no): ").strip().lower()
 
-if user_choice == "yes":
-    print("Current words in input.txt:")
-    for word in words_to_remove:
-        print(word)
+def manage_stopwords():
+    global words_to_remove
+    # Ask the user if they want to edit the input.txt file
+    user_choice = input("Do you want to edit the current stopword list? (yes/no): ").strip().lower()
+    while (1 == 1):
 
-    # Ask how many words the user wants to enter (up to 10)
-    num_words_to_enter = int(input("How many words would you like to enter (up to 10): "))
-    num_words_to_enter = min(num_words_to_enter, 10)
+        if user_choice == "yes":
+            print("Current words in input.txt:")
+            for word in words_to_remove:
+                print(word)
 
-    # Ask if the user wants to clear the list or add to it
-    clear_list = input("Do you want to clear the list before adding new words? (yes/no): ").strip().lower()
-    if clear_list == "yes":
-        words_to_remove = set()
+            # Ask how many words the user wants to enter (up to 10)
+            num_words_to_enter = int(input("How many words would you like to enter (max 10): "))
+            num_words_to_enter = min(num_words_to_enter, 10)
 
-    print("\nEnter the words:")
-    new_words = set()
-    for i in range(num_words_to_enter):
-        word = input(f"Word {i + 1}: ").strip()
-        new_words.add(word)
+            print("\nEnter the words:")
+            new_words = set()
+            for i in range(num_words_to_enter):
+                word = input(f"Word {i + 1}: ").strip()
+                new_words.add(word)
 
-    words_to_remove.update(new_words)
+            words_to_remove.update(new_words)
+        if(user_choice=="no"):
+            break
+
+
+manage_stopwords()
 
 # Filter the stop words
 filtered_stop_words = stop_words.difference(words_to_remove)
