@@ -1,8 +1,9 @@
 import os
 
-# Define the paths to the input files
+from util.dir_manager import get_directory
+
+# Define the path to the stop words file
 stop_words_path = "src/stop_words_english.txt"
-document_file = "example/example.txt"
 
 # Create a set to store the stop words
 stop_words = set()
@@ -11,16 +12,9 @@ stop_words = set()
 with open(stop_words_path, 'r', encoding="utf8") as stop_words_file:
     stop_words.update(word.strip() for word in stop_words_file)
 
-# Read the content from the document file and tokenize it into words
-with open(document_file, 'r', encoding="utf8") as input_words_file:
-    document_content = input_words_file.read()
-    words = document_content.split()
-
-
-# Function to remove stopwords from the list of words
+# Function to remove stopwords from a list of words
 def remove_stopwords(word_list, stopwords):
     return [word for word in word_list if word.lower() not in stopwords]
-
 
 # Function to manage stop words
 def manage_stopwords():
@@ -47,22 +41,43 @@ def manage_stopwords():
         with open(stop_words_path, 'w', encoding="utf8") as stop_words_file:
             stop_words_file.write("\n".join(stop_words))
 
+# Function to apply stopwords to a text
+def apply_stopwords_to_text(text):
+    words = text.split()
+    filtered_words = remove_stopwords(words, stop_words)
+    return " ".join(filtered_words)
 
-# Remove stopwords from the words
-filtered_words = remove_stopwords(words, stop_words)
+# Function to process all ".txt" files in a directory
+def process_directory(input_directory, output_directory):
+    os.makedirs(output_directory, exist_ok=True)
 
-# Create an output directory
+    for filename in os.listdir(input_directory):
+        if filename.endswith(".txt"):
+            input_file_path = os.path.join(input_directory, filename)
+            output_file_path = os.path.join(output_directory, f"{os.path.splitext(filename)[0]}.stp")
+
+            with open(input_file_path, 'r', encoding="utf8") as input_file:
+                document_content = input_file.read()
+
+            filtered_text = apply_stopwords_to_text(document_content)
+
+            with open(output_file_path, 'w', encoding="utf8") as output_file:
+                output_file.write(filtered_text)
+
+            print(f"Stopwords removed from '{filename}' and saved to '{os.path.basename(output_file_path)}'.")
+
+
+default_txt_file_directory = "example"
+user_directory = get_directory(default_txt_file_directory)
+
+if not user_directory:
+    user_directory = "example"  # Default directory
+
+# Define the output directory for processed files
 output_directory = "output_files"
-os.makedirs(output_directory, exist_ok=True)
 
-# Save the cleaned text to a new file with the ".stp" extension
-output_filename = os.path.splitext(os.path.basename(document_file))[0] + ".stp"
-output_path = os.path.join(output_directory, output_filename)
-
-with open(output_path, 'w', encoding="utf8") as output_file:
-    output_file.write(" ".join(filtered_words))
+# Process the directory
+process_directory(user_directory, output_directory)
 
 # Ask the user if they want to manage the stop words
 manage_stopwords()
-
-print(f"Stopwords removed and saved to '{output_filename}' in 'output_files' directory.")

@@ -1,6 +1,9 @@
 import os
 import subprocess
+
 import pkg_resources
+
+
 
 
 def install_dependencies(requirements_file="requirements.txt"):
@@ -21,4 +24,8 @@ def install_dependencies(requirements_file="requirements.txt"):
     else:
         print("Requirements file not found. Please create a 'requirements.txt' file.")
 
+import nltk
 
+def download_ntlk_dependencies():
+    # Download the Punkt tokenizer model
+    nltk.download('punkt')
