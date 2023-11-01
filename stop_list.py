@@ -1,5 +1,7 @@
 import os
+import subprocess
 
+from stemming import perform_lemmatization
 from util.dir_manager import get_directory
 
 # Define the path to the stop words file
@@ -12,9 +14,11 @@ stop_words = set()
 with open(stop_words_path, 'r', encoding="utf8") as stop_words_file:
     stop_words.update(word.strip() for word in stop_words_file)
 
+
 # Function to remove stopwords from a list of words
 def remove_stopwords(word_list, stopwords):
     return [word for word in word_list if word.lower() not in stopwords]
+
 
 # Function to manage stop words
 def manage_stopwords():
@@ -41,15 +45,19 @@ def manage_stopwords():
         with open(stop_words_path, 'w', encoding="utf8") as stop_words_file:
             stop_words_file.write("\n".join(stop_words))
 
+
 # Function to apply stopwords to a text
 def apply_stopwords_to_text(text):
     words = text.split()
     filtered_words = remove_stopwords(words, stop_words)
     return " ".join(filtered_words)
 
-# Function to process all ".txt" files in a directory
+
+# Function to process all ".txt" files in a directory and return the generated file names and paths
 def process_directory(input_directory, output_directory):
     os.makedirs(output_directory, exist_ok=True)
+
+    generated_files = []
 
     for filename in os.listdir(input_directory):
         if filename.endswith(".txt"):
@@ -65,6 +73,9 @@ def process_directory(input_directory, output_directory):
                 output_file.write(filtered_text)
 
             print(f"Stopwords removed from '{filename}' and saved to '{os.path.basename(output_file_path)}'.")
+            generated_files.append(output_file_path)
+
+    return generated_files
 
 
 default_txt_file_directory = "example"
@@ -76,8 +87,16 @@ if not user_directory:
 # Define the output directory for processed files
 output_directory = "output_files"
 
-# Process the directory
-process_directory(user_directory, output_directory)
+# Process the directory and get the list of generated files
+generated_files = process_directory(user_directory, output_directory)
 
 # Ask the user if they want to manage the stop words
 manage_stopwords()
+
+# Print the names and directories of the generated files
+print("\nGenerated Files:")
+for file_path in generated_files:
+    print(file_path)
+
+# Example usage with default directories:
+perform_lemmatization()

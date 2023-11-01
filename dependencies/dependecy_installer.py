@@ -1,9 +1,7 @@
 import os
 import subprocess
-
 import pkg_resources
-
-
+import nltk
 
 
 def install_dependencies(requirements_file="requirements.txt"):
@@ -21,11 +19,25 @@ def install_dependencies(requirements_file="requirements.txt"):
             print(f"Installing missing dependencies: {missing_packages}")
             subprocess.run(["pip", "install", "-r", requirements_file])
 
+        download_nltk_dependencies()
+
     else:
         print("Requirements file not found. Please create a 'requirements.txt' file.")
 
-import nltk
 
-def download_ntlk_dependencies():
-    # Download the Punkt tokenizer model
-    nltk.download('punkt')
+def download_nltk_dependencies():
+    # Check if NLTK resources are present, and download them if not
+    if not nltk.data.find("tokenizers/punkt"):
+        print("Downloading NLTK Punkt tokenizer models...")
+        nltk.download('punkt')
+
+    if not nltk.data.find("corpora/stopwords"):
+        print("Downloading NLTK stopwords corpus...")
+        nltk.download('stopwords')
+
+    if not nltk.data.find("corpora/wordnet"):
+        print("Downloading NLTK WordNet corpus...")
+        nltk.download('wordnet')
+
+
+
