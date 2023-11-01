@@ -16,9 +16,11 @@ with open(document_file, 'r', encoding="utf8") as input_words_file:
     document_content = input_words_file.read()
     words = document_content.split()
 
+
 # Function to remove stopwords from the list of words
 def remove_stopwords(word_list, stopwords):
     return [word for word in word_list if word.lower() not in stopwords]
+
 
 # Function to manage stop words
 def manage_stopwords():
@@ -44,6 +46,7 @@ def manage_stopwords():
         # Write the updated stopwords back to the stop_words_path file
         with open(stop_words_path, 'w', encoding="utf8") as stop_words_file:
             stop_words_file.write("\n".join(stop_words))
+
 
 # Remove stopwords from the words
 filtered_words = remove_stopwords(words, stop_words)
