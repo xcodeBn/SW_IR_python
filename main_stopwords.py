@@ -1,8 +1,8 @@
 import os
 
-# Define the paths to the input files
-stop_words_path = "stop_words_english.txt"
-input_words_path = "files/input.txt"
+# Define the paths to the input tools
+stop_words_path = "tools/stop_words_english.txt"
+input_words_path = "tools/input.txt"
 
 # Create a set to store the stop words
 stop_words = set()

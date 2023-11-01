@@ -1,11 +1,26 @@
 import os
 
-# Define the paths to the input files
-stop_words_path = "stop_words_english.txt"
-input_words_path = "files/input.txt"
+
+from dependencies.dependecy_installer import install_dependencies
+
+install_dependencies()
+
+import nltk
+from nltk.corpus import stopwords
+
+
+
+
+
+# Define the paths to the input tools
+stop_words_path = "tools/stop_words_english.txt"
+input_words_path = "example/example.txt"
 
 # Create a set to store the stop words
 stop_words = set()
+nltk.download('stopwords')
+print(stopwords.words('english'))
+
 
 # Read stop words from stop_words_english.txt
 with open(stop_words_path, 'r', encoding="utf8") as stop_words_file:
