@@ -2,7 +2,7 @@ import os
 import re
 import subprocess
 
-from stemming import perform_lemmatization
+from stemming import  perform_stemming
 from util.dir_manager import get_directory
 
 # Define the path to the stop words file
@@ -107,4 +107,4 @@ for file_path in generated_files:
     print(file_path)
 
 # Example usage with default directories:
-perform_lemmatization()
+perform_stemming()
