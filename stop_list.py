@@ -106,5 +106,7 @@ print("\nGenerated Files:")
 for file_path in generated_files:
     print(file_path)
 
-# Example usage with default directories:
+
+
+#perform stemming after all is done
 perform_stemming()

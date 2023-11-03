@@ -44,6 +44,7 @@ def perform_stemming(input_directory="output_files", output_directory="stemming_
 
     print("Stemming completed. Stemmed files are saved in the 'stemming_output' directory with the '.sfx' extension.")
 
+
 # You can remove the get_wordnet_pos function as it is not used in this code.
 
 
