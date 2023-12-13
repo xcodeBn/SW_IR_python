@@ -1,8 +1,7 @@
 import os
 import re
-import subprocess
 
-from stemming import  perform_stemming
+from stemming import perform_stemming
 from util.dir_manager import get_directory
 
 # Define the path to the stop words file
@@ -17,12 +16,15 @@ with open(stop_words_path, 'r', encoding="utf8") as stop_words_file:
 
 
 # Function to remove stopwords from a list of words
+
+
 def remove_stopwords(word_list, stopwords):
-    # Define a regular expression to match only lowercase alphabetical characters
-    regex = re.compile(r'[a-z]+')
+    # Define a regular expression to match only lowercase alphabetical characters and trailing special characters or
+    # digits
+    regex = re.compile(r'([a-z]+)[^a-z\d]*$')
 
     # Use list comprehension to filter words
-    cleaned_words = [regex.findall(word.lower())[0] for word in word_list if regex.findall(word.lower())]
+    cleaned_words = [regex.sub(r'\1', word.lower()) for word in word_list]
 
     # Check if cleaned words are not in stopwords
     return [word for word in cleaned_words if word not in stopwords]
@@ -86,27 +88,22 @@ def process_directory(input_directory, output_directory):
     return generated_files
 
 
-default_txt_file_directory = "example"
-user_directory = get_directory(default_txt_file_directory)
-
-if not user_directory:
-    user_directory = "example"  # Default directory
-
-# Define the output directory for processed files
-output_directory = "output_files"
-
-# Process the directory and get the list of generated files
-generated_files = process_directory(user_directory, output_directory)
-
-# Ask the user if they want to manage the stop words
-manage_stopwords()
-
-# Print the names and directories of the generated files
-print("\nGenerated Files:")
-for file_path in generated_files:
-    print(file_path)
+def handle_stopwords():
+    default_txt_file_directory = "example"
+    user_directory = get_directory(default_txt_file_directory)
+    if not user_directory:
+        user_directory = "example"  # Default directory
+    # Define the output directory for processed files
+    output_directory = "output_files"
+    # Process the directory and get the list of generated files
+    generated_files = process_directory(user_directory, output_directory)
+    # Ask the user if they want to manage the stop words
+    manage_stopwords()
+    # Print the names and directories of the generated files
+    print("\nGenerated Files:")
+    for file_path in generated_files:
+        print(file_path)
 
 
 
-#perform stemming after all is done
-perform_stemming()
+
