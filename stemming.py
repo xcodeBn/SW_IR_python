@@ -41,11 +41,8 @@ def perform_stemming(input_directory="output_files", output_directory="stemming_
 
         with open(output_path, 'w', encoding="utf8") as output_file:
             output_file.write(stemmed_text)
-
+        # Print the name of the generated file
+        print(f"Generated file: {output_file.name}")  # Extracting and printing the filename
     print("Stemming completed. Stemmed files are saved in the 'stemming_output' directory with the '.sfx' extension.")
 
 
-# You can remove the get_wordnet_pos function as it is not used in this code.
-
-
-perform_stemming()
