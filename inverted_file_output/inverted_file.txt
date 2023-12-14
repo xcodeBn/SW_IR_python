@@ -1,0 +1,6 @@
+100 pen tabl sinc 2023. univers univers univers vn.net hotmail@gmailc.om wompwomp vnet.com:
+	- example1.sfx: 0.6931471805599453
+100 pen tabl sinc 2023. univers univers univers:
+	- example2.sfx: -0.40546510810816444
+	- example3.sfx: -0.40546510810816444
+	- example4.sfx: -0.40546510810816444
