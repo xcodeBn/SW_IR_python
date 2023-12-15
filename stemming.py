@@ -1,8 +1,8 @@
 import os
-import re
-import nltk
-from nltk.corpus import stopwords
+
 from nltk.stem import SnowballStemmer
+
+from util.habu_lib import remove_special_characters
 
 # Set the Snowball Stemmer language
 snowball_stemmer = SnowballStemmer("english")
@@ -10,7 +10,8 @@ snowball_stemmer = SnowballStemmer("english")
 
 def stem_text(text):
     words = text.split()
-    stemmed_words = [snowball_stemmer.stem(word) for word in words]
+
+    stemmed_words = [snowball_stemmer.stem(remove_special_characters(word)) for word in words]
     return ' '.join(stemmed_words)
 
 
