@@ -3,6 +3,7 @@ import re
 
 from stemming import perform_stemming
 from util.dir_manager import get_directory
+from util.habu_lib import remove_special_characters
 
 # Define the path to the stop words file
 stop_words_path = "src/stop_words_english.txt"
@@ -21,17 +22,15 @@ with open(stop_words_path, 'r', encoding="utf8") as stop_words_file:
 def remove_stopwords(word_list, stopwords):
     # Define a regular expression to match only lowercase alphabetical characters and trailing special characters or
     # digits
-    regex = re.compile(r'([a-z]+)[^a-z\d]*$')
 
-    # Use list comprehension to filter words
-    cleaned_words = [regex.sub(r'\1', word.lower()) for word in word_list]
 
     # Check if cleaned words are not in stopwords
-    return [word for word in cleaned_words if word not in stopwords]
+    return [remove_special_characters(word) for word in word_list if word not in stopwords]
 
 
 # Function to manage stop words
 def manage_stopwords():
+    return 0
     global stop_words
     # Ask the user if they want to edit the stop word list
     print("Current stop words:")
@@ -100,9 +99,9 @@ def handle_stopwords():
     # Ask the user if they want to manage the stop words
     manage_stopwords()
     # Print the names and directories of the generated files
-    print("\nGenerated Files:")
-    for file_path in generated_files:
-        print(file_path)
+    # print("\nGenerated Files:")
+    # for file_path in generated_files:
+    #     print(file_path)
 
 
 
