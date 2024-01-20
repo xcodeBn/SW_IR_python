@@ -11,4 +11,10 @@ def calculate_tfidf(documents):
 
     tfidf_calculator = TFIDFCalculator(directory="stemming_output")
     tfidf_matrix = tfidf_calculator.calculate_tfidf()
+
     print(tfidf_matrix)
+
+    query = input("Enter your query:")
+    cosine_simalirity = tfidf_calculator.calculate_cosine_similarity(query)
+
+    print(cosine_simalirity)
